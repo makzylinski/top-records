@@ -6,23 +6,23 @@ Vue.use(Vuex);
 
 export const store = new Vuex.Store({
    state: {
-       records: {}
+       records: {},
     },
     getters: {
         getData: state => {
             return state.records;
-        }
+        },
     },
     mutations: {
         updateData: (state, payload) => {
             state.records = payload
-        }
+        },
     },
     actions: {
        fetchAlbums: ({commit}) => {
            axios.get('https://itunes.apple.com/us/rss/topalbums/limit=100/json')
                .then(resp => {
-                   const data = resp.data.feed.entry[20];
+                   const data = resp.data.feed.entry;
                    //console.log(resp.data.feed.entry[0].title.label); // artist & album
                    //console.log(data["im:image"][0].label) // record image
                    const recordArr = [];
@@ -32,8 +32,7 @@ export const store = new Vuex.Store({
 
                    commit('updateData', recordArr);
                })
-               .catch(error => console.log(error));
-
+               //.catch(error => console.log(error));
        }
     }
 });

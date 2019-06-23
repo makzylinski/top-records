@@ -19,5 +19,9 @@
 </script>
 
 <style>
+  .row{
+    margin: 20px;
+    font-family: "Trebuchet MS";
+  }
 </style>
 
