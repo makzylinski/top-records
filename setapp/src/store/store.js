@@ -6,7 +6,7 @@ Vue.use(Vuex);
 
 export const store = new Vuex.Store({
    state: {
-       records: {},
+       records: [],
     },
     getters: {
         getData: state => {
@@ -15,7 +15,7 @@ export const store = new Vuex.Store({
     },
     mutations: {
         updateData: (state, payload) => {
-            state.records = payload
+            state.records.push(payload);
         },
     },
     actions: {
@@ -23,16 +23,13 @@ export const store = new Vuex.Store({
            axios.get('https://itunes.apple.com/us/rss/topalbums/limit=100/json')
                .then(resp => {
                    const data = resp.data.feed.entry;
-                   //console.log(resp.data.feed.entry[0].title.label); // artist & album
-                   //console.log(data["im:image"][0].label) // record image
-                   const recordArr = [];
                    data.forEach(cur => {
-                       recordArr.push({name: cur.title.label, img: cur["im:image"][0].label})
-                   });
-
-                   commit('updateData', recordArr);
+                       const img = cur["im:image"][0].label;
+                       const artist = cur.title.label;
+                       //const recordObj = {name: artist, image: img};
+                       commit('updateData', {img: img, name: artist});
+                   })
                })
-               //.catch(error => console.log(error));
        }
-    }
+   }
 });
